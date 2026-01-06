@@ -7,6 +7,7 @@ import { pool } from "./db/pool.js";
 import { connectRedis, redisClient } from "./redis/redisClient.js";
 import authRouter from "./routes/auth.routes.js";
 import categoriesRouter from "./routes/categories.routes.js";
+import todosRouter from "./routes/todos.routes.js";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ await connectRedis();
 // ✅ 라우터 등록
 app.use("/auth", authRouter);
 app.use("/categories", categoriesRouter);
+app.use("/todos", todosRouter);
 
 // ✅ DB 연결 테스트
 app.get("/ping", async (req, res) => {
