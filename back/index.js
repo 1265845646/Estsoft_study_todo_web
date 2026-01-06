@@ -1,35 +1,53 @@
 import express from "express";
 import dotenv from "dotenv";
-import pkg from "pg";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+
+import { pool } from "./db/pool.js";
+import { connectRedis, redisClient } from "./redis/redisClient.js";
+import authRouter from "./routes/auth.routes.js";
+import categoriesRouter from "./routes/categories.routes.js";
 
 dotenv.config();
 
-const { Pool } = pkg;
-
 const app = express();
+
+// ✅ 1) CORS (프론트 Origin 허용 + 쿠키 허용)
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
+// ✅ 2) 쿠키 파싱 (req.cookies 쓰려면 필요)
+app.use(cookieParser());
+
+// ✅ 3) JSON 바디 파싱
 app.use(express.json());
 
-// DB 연결 풀
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+// ✅ 서버 시작 시 Redis 연결
+await connectRedis();
 
-// 연결 테스트 API
+// ✅ 라우터 등록
+app.use("/auth", authRouter);
+app.use("/categories", categoriesRouter);
+
+// ✅ DB 연결 테스트
 app.get("/ping", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW() as now");
     res.json({ ok: true, dbTime: result.rows[0].now });
   } catch (err) {
-    res.status(500).json({
-      ok: false,
-      message: "DB 연결 실패",
-      error: err.message,
-    });
+    res.status(500).json({ ok: false, message: "DB 연결 실패", error: err.message });
   }
+});
+
+// ✅ Redis 연결 테스트
+app.get("/redis-test", async (req, res) => {
+  await redisClient.set("test:key", "hello redis");
+  const value = await redisClient.get("test:key");
+  res.json({ ok: true, value });
 });
 
 app.listen(process.env.PORT, () => {
