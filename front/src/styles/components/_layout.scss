@@ -1,0 +1,86 @@
+@use "../partials/variables" as *;
+@use "../partials/mixins" as *;
+
+.shell {
+  min-height: 100vh;
+  padding: $space-xl $space-lg;
+
+  &__top {
+    text-align: center;
+    margin-bottom: $space-xl;
+  }
+
+  &__title {
+    font-size: 48px;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  &__subtitle {
+    margin: $space-sm 0 0 0;
+    color: $color-gray;
+    font-size: 16px;
+  }
+
+  &__main {
+    max-width: $container-width;
+    margin: 0 auto;
+  }
+}
+
+/* 상단바(선택) */
+.header {
+  @include flex(center, space-between, $space-md);
+  margin-bottom: $space-lg;
+
+  &__logo {
+    font-weight: 800;
+    color: $color-primary;
+  }
+
+  &__right {
+    @include flex(center, flex-end, $space-sm);
+  }
+}
+
+/* ✅ 이미지처럼 3개의 카드 컬럼 */
+.board {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: $space-lg;
+
+  @include respond(md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  @include card;
+  padding: $space-lg;
+  min-height: 520px;
+
+  &__title {
+    font-size: 22px;
+    margin: 0 0 $space-lg 0;
+    font-weight: 700;
+  }
+}
+
+.shell__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shell__topLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shell__topRight {
+  display: flex;
+  align-items: center;
+}
+

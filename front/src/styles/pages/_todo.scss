@@ -1,0 +1,13 @@
+@use "../partials/variables" as *;
+@use "../partials/mixins" as *;
+
+/*
+  TodoPage 전용 스타일
+  - 왼쪽: 입력 / 카테고리
+  - 가운데: 캘린더
+  - 오른쪽: 리스트
+*/
+
+.todo {
+  // 나중에 TodoPage 최상위에 className="todo" 붙일 예정
+}

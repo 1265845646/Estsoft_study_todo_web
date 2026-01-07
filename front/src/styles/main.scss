@@ -1,0 +1,15 @@
+@use "./partials/variables";
+@use "./partials/mixins";
+@use "./partials/reset";
+
+// 공통 컴포넌트 (아직 비어 있어도 OK)
+@use "./components/button";
+@use "./components/input";
+@use "./components/select";
+@use "./components/toggle";
+@use "./components/layout";
+@use "./components/calendar";
+
+// 페이지
+@use "./pages/auth";
+@use "./pages/todo";

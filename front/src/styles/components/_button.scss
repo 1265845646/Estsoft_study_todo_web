@@ -1,0 +1,41 @@
+@use "../partials/variables" as *;
+@use "../partials/mixins" as *;
+
+.btn {
+  padding: 12px 16px;
+  border-radius: $radius-md;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+
+  &--primary {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  &--secondary {
+    background-color: $color-white;
+    color: $color-primary;
+    border-color: $color-border;
+
+    &:hover {
+      background-color: #f1f5f9;
+    }
+  }
+
+  &--danger {
+    background-color: $color-danger;
+    color: $color-white;
+  }
+
+  &--ghost {
+    background: transparent;
+    color: $color-primary;
+    border-color: $color-border;
+  }
+}

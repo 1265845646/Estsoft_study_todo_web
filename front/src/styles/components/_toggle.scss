@@ -1,0 +1,42 @@
+@use "../partials/variables" as *;
+@use "../partials/mixins" as *;
+
+.toggle {
+  @include flex(center, center, 10px);
+  font-size: 14px;
+  color: $color-gray;
+
+  input {
+    display: none;
+  }
+
+  &__slider {
+    width: 44px;
+    height: 24px;
+    background-color: #e5e7eb;
+    border-radius: 999px;
+    position: relative;
+    transition: background-color 0.2s ease;
+
+    &::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      background-color: $color-white;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.2s ease;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  input:checked + &__slider {
+    background-color: $color-primary;
+
+    &::after {
+      transform: translateX(20px);
+    }
+  }
+}

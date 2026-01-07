@@ -1,0 +1,48 @@
+@use "../partials/variables" as *;
+@use "../partials/mixins" as *;
+
+.auth {
+  min-height: 100vh;
+  @include flex(center, center);
+  padding: $space-xl;
+
+  &__card {
+    @include card;
+    width: 420px;
+    padding: $space-xl;
+  }
+
+  &__title {
+    margin: 0 0 $space-lg 0;
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  &__form {
+    display: grid;
+    gap: $space-md;
+  }
+
+  &__label {
+    font-size: 13px;
+    color: $color-gray;
+    margin-top: $space-sm;
+  }
+
+  .auth__error {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #d64545;
+}
+
+.auth__subtext {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+
+  a {
+    text-decoration: underline;
+  }
+
+  }
+}

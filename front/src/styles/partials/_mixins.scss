@@ -1,0 +1,31 @@
+@use "./variables" as *;
+
+// flex 정렬
+@mixin flex($align: center, $justify: center, $gap: 0) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}
+
+// 카드 UI
+@mixin card {
+  background: $color-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  border: 1px solid $color-border;
+}
+
+// 반응형
+@mixin respond($breakpoint) {
+  @if $breakpoint == md {
+    @media (max-width: 1024px) {
+      @content;
+    }
+  }
+  @if $breakpoint == sm {
+    @media (max-width: 640px) {
+      @content;
+    }
+  }
+}
