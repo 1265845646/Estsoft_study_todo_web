@@ -1,0 +1,98 @@
+/* src/styles/components/_calendar.scss */
+.cal {
+  width: 100%;
+  padding: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.cal--compact {
+  padding: 12px;
+  border-radius: 14px;
+}
+
+.cal__header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.cal__nav {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cal__title {
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.cal__week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 8px;
+  color: rgba(15, 23, 42, 0.55);
+  font-size: 14px;
+}
+
+.cal__weekDay {
+  text-align: center;
+  padding: 6px 0;
+}
+
+.cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.cal__cell {
+  height: 44px;
+  border: 0;
+  background: transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.cal__day {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.cal__cell.is-outMonth {
+  opacity: 0.35;
+}
+
+.cal__cell.is-sun .cal__day {
+  color: #ef4444;
+}
+.cal__cell.is-sat .cal__day {
+  color: #2563eb;
+}
+
+/* todo 있는 날: 연한 회색 배경(레퍼런스 느낌) */
+.cal__cell.has-todo {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+/* 선택된 날짜: 진한 원 */
+.cal__cell.is-selected {
+  background: #0b1220;
+}
+.cal__cell.is-selected .cal__day {
+  color: #fff;
+  font-weight: 700;
+}

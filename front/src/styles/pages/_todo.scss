@@ -1,13 +1,336 @@
-@use "../partials/variables" as *;
-@use "../partials/mixins" as *;
+/* src/styles/pages/_todo.scss */
+.todoBoard {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr 1.05fr;
+  gap: 26px;
+  align-items: start;
+}
 
-/*
-  TodoPage 전용 스타일
-  - 왼쪽: 입력 / 카테고리
-  - 가운데: 캘린더
-  - 오른쪽: 리스트
-*/
+.todoCard {
+  background: #fff;
+  border-radius: 22px;
+  padding: 26px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
 
-.todo {
-  // 나중에 TodoPage 최상위에 className="todo" 붙일 예정
+.todoCard__title {
+  font-size: 26px;
+  font-weight: 650;
+  margin: 0 0 18px;
+}
+
+.todoForm {
+  display: grid;
+  gap: 18px;
+}
+
+.todoForm__label {
+  font-size: 14px;
+  color: rgba(15, 23, 42, 0.6);
+  margin-bottom: 8px;
+}
+
+.ghostBtn {
+  margin-top: 10px;
+  width: 100%;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.inlineAdd {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 90px;
+  gap: 10px;
+  align-items: center;
+}
+
+.chipBox {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 14px;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: #1d4ed8;
+  border-radius: 12px;
+  padding: 8px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chip__text {
+  font-weight: 600;
+}
+
+.chip__input {
+  border: 0;
+  outline: none;
+  background: #fff;
+  border-radius: 10px;
+  padding: 6px 8px;
+  width: 160px;
+}
+
+.chip__actions {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.chip__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.chip__icon--danger {
+  color: #ef4444;
+}
+
+.dateField {
+  position: relative;
+}
+
+.dateField__input {
+  width: 100%;
+  height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #fff;
+  text-align: left;
+  padding: 0 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.datePop {
+  position: absolute;
+  z-index: 50;
+  top: 52px;
+  left: 0;
+  width: 320px;
+}
+
+.primaryBig {
+  margin-top: 8px;
+  width: 100%;
+  height: 56px;
+  border-radius: 16px;
+  border: 0;
+  background: linear-gradient(180deg, #0b1220 0%, #070b14 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.primaryBig__plus {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.calendarWrap {
+  padding-top: 8px;
+}
+
+.taskToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.seg {
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 16px;
+  background: #fff;
+  gap: 4px;
+}
+
+.seg__btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.seg__btn.is-on {
+  background: #0b1220;
+  color: #fff;
+}
+
+.taskHint {
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: rgba(15, 23, 42, 0.65);
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+.taskList {
+  display: grid;
+  gap: 12px;
+  min-height: 240px;
+}
+
+.taskEmpty {
+  text-align: center;
+  color: rgba(15, 23, 42, 0.45);
+  padding: 64px 0;
+  font-weight: 650;
+}
+
+.taskItem {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #fff;
+}
+
+.taskItem.is-done {
+  opacity: 0.65;
+}
+
+.taskItem__check {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+}
+.taskItem__check input {
+  display: none;
+}
+.taskItem__check span {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 2px solid rgba(15, 23, 42, 0.25);
+  display: block;
+  position: relative;
+}
+.taskItem__check input:checked + span {
+  background: #0b1220;
+  border-color: #0b1220;
+}
+.taskItem__check input:checked + span::after {
+  content: "✓";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.taskItem__titleBtn {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-weight: 750;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.taskItem__edit {
+  width: 100%;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 0 10px;
+  font-weight: 650;
+}
+
+.taskItem__meta {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: rgba(15, 23, 42, 0.55);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.taskItem__cat {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: #1d4ed8;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.taskItem__actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.miniBtn {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.miniBtn--danger {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+/* Toggle pill */
+.pillToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.pillToggle__label {
+  font-weight: 700;
+  color: rgba(15, 23, 42, 0.6);
+}
+.pillToggle__btn {
+  height: 36px;
+  min-width: 64px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+}
+.pillToggle__btn.is-on {
+  background: #0b1220;
+  color: #fff;
+  border-color: #0b1220;
 }
