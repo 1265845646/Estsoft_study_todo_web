@@ -28,28 +28,50 @@ function refreshCookieOptions() {
 
 export async function signup(req, res) {
   const { email, password } = req.body;
+
   if (!email || !password) {
     return res.status(400).json({ ok: false, message: "email, password는 필수입니다." });
   }
 
+  const emailTrim = String(email).trim();
+
+  // ✅ 이메일 형식 검증
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailTrim)) {
+    return res.status(400).json({ ok: false, message: "이메일 형식이 올바르지 않습니다." });
+  }
+
+  // ✅ 비밀번호 정책: 8자 이상 + 특수문자 1개 이상
+  const pw = String(password);
+  const hasMinLen = pw.length >= 8;
+  const hasSpecial = /[^A-Za-z0-9]/.test(pw);
+  if (!hasMinLen || !hasSpecial) {
+    return res.status(400).json({
+      ok: false,
+      message: "비밀번호는 최소 8자 이상이며 특수문자를 1개 이상 포함해야 합니다.",
+    });
+  }
+
   try {
-    const hashed = await bcrypt.hash(password, 10);
+    const hashed = await bcrypt.hash(pw, 10);
 
     const result = await pool.query(
       `INSERT INTO users (email, password)
        VALUES ($1, $2)
        RETURNING id, email, token_version, created_at`,
-      [email, hashed]
+      [emailTrim, hashed]
     );
 
-    res.status(201).json({ ok: true, user: result.rows[0] });
+    return res.status(201).json({ ok: true, user: result.rows[0] });
   } catch (err) {
+    // ✅ 이메일 중복(UNIQUE) 예외처리
     if (err.code === "23505") {
       return res.status(409).json({ ok: false, message: "이미 존재하는 이메일입니다." });
     }
-    res.status(500).json({ ok: false, message: "회원가입 실패", error: err.message });
+    return res.status(500).json({ ok: false, message: "회원가입 실패", error: err.message });
   }
 }
+
 
 export async function login(req, res) {
   const { email, password } = req.body;

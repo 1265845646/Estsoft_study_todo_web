@@ -20,10 +20,38 @@ export default function SignupPage() {
   const [modalMsg, setModalMsg] = useState("");
   const [goLoginOnClose, setGoLoginOnClose] = useState(false);
 
+  // ✅ 검증 규칙
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRuleText = "비밀번호는 최소 8자 이상, 특수문자 1개 이상 포함해야 합니다.";
+
   async function handleSignup() {
-    if (!email.trim() || !password.trim()) {
+    const emailTrim = email.trim();
+    const pw = password; // 비밀번호는 공백도 하나의 문자라 일단 그대로 두고 정책으로 체크
+
+    // 1) 필수값
+    if (!emailTrim || !pw) {
       setModalTitle("회원가입 실패");
       setModalMsg("이메일과 비밀번호를 입력해주세요.");
+      setGoLoginOnClose(false);
+      setModalOpen(true);
+      return;
+    }
+
+    // 2) 이메일 형식
+    if (!emailRegex.test(emailTrim)) {
+      setModalTitle("회원가입 실패");
+      setModalMsg("이메일 형식이 올바르지 않습니다.");
+      setGoLoginOnClose(false);
+      setModalOpen(true);
+      return;
+    }
+
+    // 3) 비밀번호 정책: 8자 이상 + 특수문자 1개 이상
+    const hasMinLen = pw.length >= 8;
+    const hasSpecial = /[^A-Za-z0-9]/.test(pw); // 영문/숫자 제외 문자를 특수문자로 판단
+    if (!hasMinLen || !hasSpecial) {
+      setModalTitle("회원가입 실패");
+      setModalMsg(passwordRuleText);
       setGoLoginOnClose(false);
       setModalOpen(true);
       return;
@@ -32,8 +60,8 @@ export default function SignupPage() {
     setLoading(true);
     try {
       const res = await api.post("/auth/signup", {
-        email: email.trim(),
-        password,
+        email: emailTrim,
+        password: pw,
       });
 
       if (res.data?.ok) {
@@ -92,6 +120,9 @@ export default function SignupPage() {
             placeholder="Enter password"
             autoComplete="new-password"
           />
+
+          {/* ✅ 비밀번호 정책 안내 (빨간색) */}
+          <p className="auth__error">{passwordRuleText}</p>
 
           <Button variant="primary" onClick={handleSignup} disabled={loading}>
             {loading ? "Signing up..." : "Sign Up"}
