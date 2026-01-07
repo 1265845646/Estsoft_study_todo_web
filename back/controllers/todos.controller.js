@@ -14,7 +14,7 @@ export async function getTodos(req, res) {
         category_id,
         title,
         content,
-        due_date,
+        due_date::text AS due_date,
         is_completed,
         completed_at,
         created_at,
@@ -71,7 +71,16 @@ export async function createTodo(req, res) {
       `
       INSERT INTO todos (user_id, category_id, title, content, due_date)
       VALUES ($1, $2, $3, $4, $5)
-      RETURNING *
+      RETURNING
+        id,
+        category_id,
+        title,
+        content,
+        due_date::text AS due_date,
+        is_completed,
+        completed_at,
+        created_at,
+        updated_at
       `,
       [userId, category_id || null, title, content || null, due_date]
     );
@@ -111,7 +120,16 @@ export async function updateTodo(req, res) {
         content = $3,
         due_date = $4
       WHERE id = $5 AND user_id = $6
-      RETURNING *
+      RETURNING
+        id,
+        category_id,
+        title,
+        content,
+        due_date::text AS due_date,
+        is_completed,
+        completed_at,
+        created_at,
+        updated_at
       `,
       [
         category_id || null,
@@ -158,7 +176,16 @@ export async function toggleTodoComplete(req, res) {
           ELSE NULL
         END
       WHERE id = $1 AND user_id = $2
-      RETURNING *
+      RETURNING
+        id,
+        category_id,
+        title,
+        content,
+        due_date::text AS due_date,
+        is_completed,
+        completed_at,
+        created_at,
+        updated_at
       `,
       [id, userId]
     );

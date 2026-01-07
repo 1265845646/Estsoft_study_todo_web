@@ -334,3 +334,72 @@
   color: #fff;
   border-color: #0b1220;
 }
+
+/* ====== Added for memo + full edit ====== */
+.todoForm__textarea {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.35;
+  resize: vertical;
+}
+
+.taskItem__memo {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: rgba(15, 23, 42, 0.55);
+  white-space: pre-wrap;
+}
+
+.taskItem__editGrid {
+  display: grid;
+  gap: 8px;
+}
+
+.taskItem__editTextarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 1.35;
+  resize: vertical;
+}
+
+.taskItem__editRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.taskItem__editDate,
+.taskItem__editSelect {
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 0 10px;
+  font-weight: 650;
+  background: #fff;
+}
+
+.taskItem__editActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.taskItem__catClear {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 900;
+  margin-left: 6px;
+  color: inherit;
+  opacity: 0.8;
+}
+.taskItem__catClear:hover {
+  opacity: 1;
+}

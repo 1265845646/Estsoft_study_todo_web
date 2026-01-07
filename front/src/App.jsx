@@ -34,32 +34,39 @@
 
 // export default App;
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AppRouter from "./routes/AppRouter.jsx";
 import { api } from "./api/apiClient";
 import { setAccessToken, clearAccessToken } from "./api/tokenStore";
 
 export default function App() {
-  const [booting, setBooting] = useState(true); // ✅ 세션 복구 중
+  const [booting, setBooting] = useState(true);
+  const didBoot = useRef(false); // ✅ StrictMode 2번 실행 방지
 
   useEffect(() => {
+    if (didBoot.current) return;
+    didBoot.current = true;
+
     async function restoreSession() {
       try {
         const r = await api.post("/auth/refresh", {});
         const token = r.data?.accessToken;
+
         if (token) setAccessToken(token);
         else clearAccessToken();
       } catch (e) {
-        clearAccessToken(); // 비로그인/만료면 정상
+        clearAccessToken();
       } finally {
-        setBooting(false); // ✅ 복구 시도 끝
+        setBooting(false);
       }
     }
+
     restoreSession();
   }, []);
 
   return <AppRouter booting={booting} />;
 }
+
 
 
 
