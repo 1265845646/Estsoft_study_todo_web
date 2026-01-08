@@ -20,12 +20,18 @@ export default function LoginPage() {
     "로그인에 실패했어요. 다시 시도해주세요."
   );
 
-  async function handleLogin() {
+  async function handleLogin(e) {
+    // ✅ Enter(폼 submit)로 들어와도 새로고침 안 되게
+    if (e?.preventDefault) e.preventDefault();
+
     if (!email.trim() || !password.trim()) {
       setModalMsg("이메일과 비밀번호를 입력해주세요.");
       setModalOpen(true);
       return;
     }
+
+    // ✅ 연타/중복 submit 방지
+    if (loading) return;
 
     setLoading(true);
     try {
@@ -61,7 +67,8 @@ export default function LoginPage() {
         <h1 className="auth__title">Task Manager</h1>
         <p className="auth__subtitle">계정에 로그인해주세요</p>
 
-        <div className="auth__form">
+        {/* ✅ Enter 누르면 로그인 되도록 form + onSubmit */}
+        <form className="auth__form" onSubmit={handleLogin}>
           <label className="auth__label">Email</label>
           <Input
             value={email}
@@ -79,10 +86,16 @@ export default function LoginPage() {
             autoComplete="current-password"
           />
 
-          <Button variant="primary" onClick={handleLogin} disabled={loading}>
+          {/* ✅ 클릭도/엔터도 submit으로 통일 */}
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={loading}
+            onClick={handleLogin}
+          >
             {loading ? "Signing in..." : "Sign In"}
           </Button>
-        </div>
+        </form>
 
         {/* ✅ 회원가입 링크 */}
         <p className="auth__subtext">

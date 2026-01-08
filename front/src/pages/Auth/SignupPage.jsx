@@ -22,9 +22,13 @@ export default function SignupPage() {
 
   // ✅ 검증 규칙
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRuleText = "비밀번호는 최소 8자 이상, 특수문자 1개 이상 포함해야 합니다.";
+  const passwordRuleText =
+    "비밀번호는 최소 8자 이상, 특수문자 1개 이상 포함해야 합니다.";
 
-  async function handleSignup() {
+  async function handleSignup(e) {
+    // ✅ Enter(폼 submit)로 들어와도 새로고침 안 되게
+    if (e?.preventDefault) e.preventDefault();
+
     const emailTrim = email.trim();
     const pw = password; // 비밀번호는 공백도 하나의 문자라 일단 그대로 두고 정책으로 체크
 
@@ -56,6 +60,9 @@ export default function SignupPage() {
       setModalOpen(true);
       return;
     }
+
+    // ✅ 연타/중복 submit 방지
+    if (loading) return;
 
     setLoading(true);
     try {
@@ -103,7 +110,8 @@ export default function SignupPage() {
         <h1 className="auth__title">Task Manager</h1>
         <p className="auth__subtitle">새로운 계정을 생성합니다</p>
 
-        <div className="auth__form">
+        {/* ✅ Enter 누르면 회원가입 되도록 form + onSubmit */}
+        <form className="auth__form" onSubmit={handleSignup}>
           <label className="auth__label">Email</label>
           <Input
             value={email}
@@ -124,10 +132,16 @@ export default function SignupPage() {
           {/* ✅ 비밀번호 정책 안내 (빨간색) */}
           <p className="auth__error">{passwordRuleText}</p>
 
-          <Button variant="primary" onClick={handleSignup} disabled={loading}>
+          {/* ✅ 클릭도/엔터도 submit으로 통일 */}
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={loading}
+            onClick={handleSignup}
+          >
             {loading ? "Signing up..." : "Sign Up"}
           </Button>
-        </div>
+        </form>
 
         {/* ✅ 로그인으로 돌아가기 링크 */}
         <p className="auth__subtext">
