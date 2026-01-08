@@ -6,6 +6,8 @@ import Toggle from "../../components/common/Toggle";
 import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
 import Select from "../../components/common/Select";
+import Modal from "../../components/common/Modal";
+import useModal from "../../hooks/useModal";
 
 import {
   getTodos,
@@ -55,6 +57,8 @@ function inRange(d, s, e) {
 }
 
 export default function TodoPage() {
+  const { modalProps, openModal } = useModal();
+
   // ====== UI 상태 ======
   const [selectedDate, setSelectedDate] = useState(() => new Date());
   const [month, setMonth] = useState(() => new Date()); // 캘린더 표시 월
@@ -133,32 +137,30 @@ export default function TodoPage() {
     if (viewMode === "daily") {
       return `선택한 날짜: ${fmtKoreanDate(selectedDate)}`;
     }
-  return `선택된 주: ${(() => {
-  const base = new Date(selectedDate);
-  base.setHours(0, 0, 0, 0);
+    return `선택된 주: ${(() => {
+      const base = new Date(selectedDate);
+      base.setHours(0, 0, 0, 0);
 
-  // 일=0, 월=1, ... 토=6
-  const day = base.getDay();
+      // 일=0, 월=1, ... 토=6
+      const day = base.getDay();
 
-  // 선택된 날짜가 포함된 주의 "일요일"
-  const sunday = new Date(base);
-  sunday.setDate(sunday.getDate() - day);
+      // 선택된 날짜가 포함된 주의 "일요일"
+      const sunday = new Date(base);
+      sunday.setDate(sunday.getDate() - day);
 
-  // 그 주의 "토요일"
-  const saturday = new Date(sunday);
-  saturday.setDate(saturday.getDate() + 6);
+      // 그 주의 "토요일"
+      const saturday = new Date(sunday);
+      saturday.setDate(saturday.getDate() + 6);
 
-  const format = (d) => {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${dd}`;
-  };
+      const format = (d) => {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${dd}`;
+      };
 
-  return `${format(sunday)}~${format(saturday)}`;
-})()}`;
-
-
+      return `${format(sunday)}~${format(saturday)}`;
+    })()}`;
   }, [viewMode, selectedDate, weekStart, weekEnd]);
 
   const filteredTodos = useMemo(() => {
@@ -192,7 +194,10 @@ export default function TodoPage() {
   // ====== 카테고리 CRUD ======
   async function handleAddCategory() {
     const name = catNewName.trim();
-    if (!name) return;
+    if (!name) {
+      openModal("입력 필요", "카테고리 이름을 입력해주세요");
+      return;
+    }
 
     try {
       const created = await createCategory(name);
@@ -210,7 +215,10 @@ export default function TodoPage() {
 
   async function saveEditCategory(catId) {
     const name = editingCatName.trim();
-    if (!name) return;
+    if (!name) {
+      openModal("입력 필요", "카테고리 이름을 입력해주세요");
+      return;
+    }
 
     try {
       const updated = await updateCategory(catId, name);
@@ -240,7 +248,10 @@ export default function TodoPage() {
   // ====== 투두 CRUD ======
   async function handleAddTodo() {
     const t = title.trim();
-    if (!t) return;
+    if (!t) {
+      openModal("입력 필요", "할 일을 입력해주세요");
+      return;
+    }
 
     try {
       const created = await createTodo({
@@ -274,7 +285,10 @@ export default function TodoPage() {
 
   async function saveEditTodo(todoId) {
     const t = editingTodoTitle.trim();
-    if (!t) return;
+    if (!t) {
+      openModal("입력 필요", "할 일을 입력해주세요");
+      return;
+    }
     if (!editingTodoDue) return;
 
     try {
@@ -724,6 +738,9 @@ export default function TodoPage() {
           </div>
         </div>
       )}
+
+      {/* ✅ 입력 검증 모달 */}
+      <Modal {...modalProps} />
     </PageShell>
   );
 }
