@@ -20,17 +20,18 @@ export default function PageShell({ title = "Task Manager", subtitle, children }
   return (
     <div className="shell">
       <header className="shell__top">
-        <div className="shell__topLeft">
-          <h1 className="shell__title">{title}</h1>
-          {subtitle ? <p className="shell__subtitle">{subtitle}</p> : null}
-        </div>
+  <div className="shell__centerTitle">
+    <h1 className="shell__title">{title}</h1>
+    {subtitle ? <p className="shell__subtitle">{subtitle}</p> : null}
+  </div>
 
-        <div className="shell__topRight">
-          <Button variant="ghost" onClick={handleLogout}>
-            Logout
-          </Button>
-        </div>
-      </header>
+  <div className="shell__topRight">
+    <Button variant="ghost" onClick={handleLogout}>
+      Logout
+    </Button>
+  </div>
+</header>
+
 
       <main className="shell__main">{children}</main>
     </div>

@@ -133,13 +133,32 @@ export default function TodoPage() {
     if (viewMode === "daily") {
       return `선택한 날짜: ${fmtKoreanDate(selectedDate)}`;
     }
-    return `Showing tasks for week: ${weekStart.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    })} - ${weekEnd.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    })}, ${weekEnd.getFullYear()}`;
+  return `선택된 주: ${(() => {
+  const base = new Date(selectedDate);
+  base.setHours(0, 0, 0, 0);
+
+  // 일=0, 월=1, ... 토=6
+  const day = base.getDay();
+
+  // 선택된 날짜가 포함된 주의 "일요일"
+  const sunday = new Date(base);
+  sunday.setDate(sunday.getDate() - day);
+
+  // 그 주의 "토요일"
+  const saturday = new Date(sunday);
+  saturday.setDate(saturday.getDate() + 6);
+
+  const format = (d) => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${dd}`;
+  };
+
+  return `${format(sunday)}~${format(saturday)}`;
+})()}`;
+
+
   }, [viewMode, selectedDate, weekStart, weekEnd]);
 
   const filteredTodos = useMemo(() => {
@@ -325,7 +344,7 @@ export default function TodoPage() {
       <div className="todoBoard">
         {/* LEFT */}
         <section className="todoCard">
-          <h2 className="todoCard__title">Add New Task</h2>
+          <h2 className="todoCard__title">새 일정 추가하기</h2>
 
           <div className="todoForm">
             <div className="todoForm__group">
@@ -511,7 +530,7 @@ export default function TodoPage() {
 
         {/* RIGHT */}
         <section className="todoCard">
-          <h2 className="todoCard__title">Tasks</h2>
+          <h2 className="todoCard__title">Todo List</h2>
 
           <div className="taskToolbar">
             <div className="seg">

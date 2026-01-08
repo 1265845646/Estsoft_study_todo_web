@@ -6,8 +6,18 @@
   padding: $space-xl $space-lg;
 
   &__top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; // 로그아웃 오른쪽
+    margin-bottom: $space-xl; // ✅ 제목/본문 사이 여유 다시 넣기
+  }
+
+  &__centerTitle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
-    margin-bottom: $space-xl;
   }
 
   &__title {
@@ -25,8 +35,10 @@
   &__main {
     max-width: $container-width;
     margin: 0 auto;
+    padding-top: $space-lg; 
   }
 }
+
 
 /* 상단바(선택) */
 .header {
@@ -66,21 +78,24 @@
   }
 }
 
-.shell__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
+// .shell__top {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   gap: 12px;
+// }
 
-.shell__topLeft {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+// .shell__topLeft {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 4px;
+// }
 
-.shell__topRight {
-  display: flex;
-  align-items: center;
-}
+// .shell__topRight {
+//   display: flex;
+//   align-items: center;
+// }
+
+
+
 

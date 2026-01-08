@@ -101,14 +101,14 @@ export default function SignupPage() {
     <div className="auth">
       <div className="auth__card">
         <h1 className="auth__title">Task Manager</h1>
-        <p className="auth__subtitle">Create your account</p>
+        <p className="auth__subtitle">새로운 계정을 생성합니다</p>
 
         <div className="auth__form">
           <label className="auth__label">Email</label>
           <Input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email"
+            placeholder="이메일을 입력해주세요"
             autoComplete="email"
           />
 
@@ -117,7 +117,7 @@ export default function SignupPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
+            placeholder="비밀번호를 입력해주세요"
             autoComplete="new-password"
           />
 
@@ -131,7 +131,7 @@ export default function SignupPage() {
 
         {/* ✅ 로그인으로 돌아가기 링크 */}
         <p className="auth__subtext">
-          Already have an account? <Link to="/login">Sign in</Link>
+          이미 계정이 있으신가요? <Link to="/login">로그인 하기</Link>
         </p>
       </div>
 
