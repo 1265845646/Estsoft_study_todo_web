@@ -36,12 +36,14 @@
 | 구분 | 기술 요소 | 상세 설명 |
 | :--- | :--- | :--- |
 | **Backend** | Node.js, Express, PostgreSQL, Redis | JWT (Access / Refresh Token) 인증 체계 |
-| **Frontend** | React, SCSS (SASS), Tailwind CSS | Partial 구조 기반 스타일 설계 및 레이아웃 보조 |
+| **Frontend** | React, SCSS (SASS) | Partial 구조 기반 스타일 설계 및 레이아웃 보조 |
 | **Tooling** | Postman, Git / GitHub | API 설계 검증 및 버전 관리 |
 
 ---
 
 ## 4. ERD 및 테이블 설계 설명
+
+![송민지_ERD](./송민지_ERD.png)
 
 ### 💡 핵심 설계 원칙
 * 사용자 데이터는 반드시 **user_id 기준으로 분리**
@@ -119,6 +121,8 @@ npm run dev
 npm install
 npm run dev
 ```
+
+ http://localhost:5173/ 으로 접속
 
 
 ## 9. 마무리
